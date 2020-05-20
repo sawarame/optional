@@ -6,15 +6,19 @@ namespace SawarameTest;
 
 use PHPUnit\Framework\TestCase;
 use Sawarame\Optional;
-
-use function PHPUnit\Framework\assertInfinite;
-use function PHPUnit\Framework\assertInstanceOf;
+use Sawarame\Optional\Exception\NullPointerException;
 
 class OptionalTest extends TestCase
 {
-   public function testOf() {
-       $optional = Optional::of("test");
-       assertInstanceOf(Optional::class, $optional);
+    public function testOf()
+    {
+        $optional = Optional::of("test");
+        $this->assertInstanceOf(Optional::class, $optional);
+    }
 
-   }
+    public function testOf__NullPointerException()
+    {
+        $this->expectException(NullPointerException::class);
+        Optional::of(null);
+    }
 }
