@@ -1,0 +1,29 @@
+{
+    "name": "sawarame/optional",
+    "description": "Optional for PHP.",
+    "type": "library",
+    "license": "BSD-3-Clause",
+    "autoload": {
+        "psr-4": {
+            "Sawarame\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "SawarameTest\\": "test/"
+        }
+    },
+    "require": {},
+    "require-dev": {
+        "squizlabs/php_codesniffer": "^3.5",
+        "phpunit/phpunit": "^9.1",
+        "phpmd/phpmd": "^2.8"
+    },
+    "scripts": {
+        "test": "phpunit",
+        "phpmd": "phpmd src text unusedcode,codesize",
+        "cs-check": "phpcs -s",
+        "cs-fix": "phpcbf"
+    }
+
+}
