@@ -3,6 +3,7 @@
 namespace Sawarame;
 
 use Sawarame\Optional\Exception\NullPointerException;
+use Sawarame\Optional\Exception\NoSuchElementException;
 
 class Optional
 {
@@ -31,4 +32,25 @@ class Optional
         return new self($value);
     }
 
+    public function get()
+    {
+        if (is_null($this->value)) {
+            throw new NoSuchElementException();
+        }
+        return $this->value;
+    }
+
+    public function isPresent(): bool
+    {
+        return ! is_null($this->value);
+    }
+
+    public function map(callable $mapper): self
+    {
+        if (! is_null($this->value)) {
+            $value = $mapper($this->value);
+            return new self($value);
+        }
+        return self::empty();
+    }
 }
