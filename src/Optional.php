@@ -127,4 +127,12 @@ class Optional
         }
         throw new NoSuchElementException();
     }
+
+    public function equals($obj): bool
+    {
+        if (! $obj instanceof Optional) {
+            return false;
+        }
+        return $this->orElse(null) === $obj->orElse(null);
+    }
 }
