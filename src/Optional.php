@@ -1,12 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Sawarame;
 
-use Prophecy\Promise\ThrowPromise;
 use Sawarame\Optional\Exception\NullPointerException;
 use Sawarame\Optional\Exception\NoSuchElementException;
-use Throwable;
 
+/**
+ * Optional class.
+ *
+ * @SuppressWarnings(PHPMD.TooManyPublicMethods)
+ */
 class Optional
 {
     private $value = null;
@@ -69,7 +74,13 @@ class Optional
 
     public function filter(callable $predicate): self
     {
-        if ($predicate($this->value)) {
+        $filterClass = new class {
+            public function filter(callable $predicate, $value): bool
+            {
+                return $predicate($value);
+            }
+        };
+        if ($filterClass->filter($predicate, $this->value)) {
             return self::ofNullable($this->value);
         }
         return self::empty();
@@ -87,7 +98,13 @@ class Optional
     public function flatMap(callable $mapper)
     {
         if (! is_null($this->value)) {
-            return $this->map($mapper)->get();
+            $mapperClass = new class {
+                public function flatMap(callable $mapper, $value): Optional
+                {
+                    return $mapper($value);
+                }
+            };
+            return $mapperClass->flatMap($mapper, $this->value);
         }
         return self::empty();
     }
@@ -97,7 +114,13 @@ class Optional
         if (! is_null($this->value)) {
             return self::of($this->value);
         }
-        return $supplier();
+        $supplierClass = new class {
+            public function or(callable $supplier): Optional
+            {
+                return $supplier();
+            }
+        };
+        return $supplierClass->or($supplier);
     }
 
     public function orElse($other)
@@ -118,6 +141,9 @@ class Optional
 
     public function orElseThrow(?callable $exceptionSupplier = null)
     {
+        if (! is_null($this->value)) {
+            return $this->get();
+        }
         if (is_null($exceptionSupplier)) {
             throw new NoSuchElementException();
         }
