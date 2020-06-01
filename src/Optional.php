@@ -74,13 +74,10 @@ class Optional
 
     public function filter(callable $predicate): self
     {
-        $filterClass = new class {
-            public function filter(callable $predicate, $value): bool
-            {
-                return $predicate($value);
-            }
+        $apply = function (callable $predicate, $value): bool {
+            return $predicate($value);
         };
-        if ($filterClass->filter($predicate, $this->value)) {
+        if ($apply($predicate, $this->value)) {
             return self::ofNullable($this->value);
         }
         return self::empty();
@@ -98,13 +95,10 @@ class Optional
     public function flatMap(callable $mapper)
     {
         if (! is_null($this->value)) {
-            $mapperClass = new class {
-                public function flatMap(callable $mapper, $value): Optional
-                {
-                    return $mapper($value);
-                }
+            $apply = function (callable $mapper, $value): Optional {
+                return $mapper($value);
             };
-            return $mapperClass->flatMap($mapper, $this->value);
+            return $apply($mapper, $this->value);
         }
         return self::empty();
     }
@@ -114,13 +108,10 @@ class Optional
         if (! is_null($this->value)) {
             return self::of($this->value);
         }
-        $supplierClass = new class {
-            public function or(callable $supplier): Optional
-            {
-                return $supplier();
-            }
+        $apply = function (callable $mapper): Optional {
+            return $mapper();
         };
-        return $supplierClass->or($supplier);
+        return $apply($supplier);
     }
 
     public function orElse($other)
