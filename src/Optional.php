@@ -241,10 +241,13 @@ class Optional
      * @param callable $exceptionSupplier The supplier which will return the exception to be thrown
      * @return mixed the present value
      */
-    public function orElseThrow(callable $exceptionSupplier)
+    public function orElseThrow(?callable $exceptionSupplier = null)
     {
         if (! is_null($this->value)) {
             return $this->get();
+        }
+        if (is_null($exceptionSupplier)) {
+            throw new NoSuchElementException();
         }
         $exception = $exceptionSupplier();
         if (is_a($exception, 'Exception', true) || is_a($exception, 'Throwable', true)) {
