@@ -1,6 +1,6 @@
 <?php
 
-namespace Sawarame\Optional\Exception;
+namespace Sawarame\Optional\Optional\Exception;
 
 use RuntimeException;
 

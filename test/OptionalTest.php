@@ -5,12 +5,25 @@ declare(strict_types=1);
 namespace SawarameTest;
 
 use PHPUnit\Framework\TestCase;
-use Sawarame\Optional;
-use Sawarame\Optional\Exception\NullPointerException;
-use Sawarame\Optional\Exception\NoSuchElementException;
+use Sawarame\Optional\Optional;
+use Sawarame\Optional\Optional\Exception\NullPointerException;
+use Sawarame\Optional\Optional\Exception\NoSuchElementException;
 
 class OptionalTest extends TestCase
 {
+    /**
+     * test empty().
+     */
+    public function testEmpty()
+    {
+        $optional = Optional::empty();
+        $this->assertInstanceOf(Optional::class, $optional);
+        $this->assertEquals(Optional::ofNullable(null), $optional);
+    }
+
+    /**
+     * test of().
+     */
     public function testOf()
     {
         $optional = Optional::of("test");

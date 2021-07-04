@@ -5,15 +5,17 @@
     "license": "BSD-3-Clause",
     "autoload": {
         "psr-4": {
-            "Sawarame\\": "src/"
+            "Sawarame\\Optional\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "SawarameTest\\": "test/"
+            "SawarameTest\\Optional\\": "test/"
         }
     },
-    "require": {},
+    "require": {
+        "php": "^7.3"
+    },
     "require-dev": {
         "squizlabs/php_codesniffer": "^3.5",
         "phpunit/phpunit": "^9.1",
@@ -25,5 +27,4 @@
         "cs-check": "phpcs -s",
         "cs-fix": "phpcbf"
     }
-
 }
