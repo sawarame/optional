@@ -257,7 +257,7 @@ class Optional
      * Indicates whether some other object is "equal to" this Optional. The other object is considered equal if:
      * - it is also an Optional and;
      * - both instances have no value present or;
-     * - the present values equal to another present value.
+     * - the present value equal to another present value.
      *
      * @param mixed $obj an object to be tested for equality
      * @return boolean if the other object is "equal to" this object otherwise false
